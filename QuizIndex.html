@@ -1,0 +1,372 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="https://kit.fontawesome.com/3cff0ef0ed.js" crossorigin="anonymous"></script>
+    <!-- Bootstrap core CSS -->
+    <link href="Content/bootstrap.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="Content/scrolling-nav.css" rel="stylesheet">
+    <link href="Content/Site.css" rel="stylesheet" />
+    <style>
+        body{
+            min-width: 800px;
+            min-height: 600px;
+        }
+        h4{
+            margin-bottom: 10px;
+        }
+        .hidden{
+            display:none;
+        }
+        .ans_q1{
+           margin: 4px; 
+        }
+        .green{
+            color: green;
+        }
+        .red{
+            color: red;
+        }
+        .small_text{
+            font-size: x-small;
+            color: gray;
+        }
+        .big_text{
+            font-size: x-large important!;
+        }
+    </style>
+</head>
+<body>
+    <header class="bg-primary text-white">
+        <div class="container text-center">
+            <h1>Developer Quiz</h1>
+        </div>
+
+    </header>
+    <!-- <progress id="status" class="hidden" aria-valuenow="0"></progress> -->
+    <section id="init" >
+        <h3>
+            Start the QUIZ pressing start button.
+        </h3>
+        <input class="btn-info" type="button" onclick="start()" value="Start" />
+    </section>
+    <section id="Q1" class="hidden">
+        <div class="container-fluid" >
+            <p>How do you describe yourself as a developer?</p>
+            <input type="radio" name="q1" value="1" onclick="q1(this.value)" />&nbsp;<span>Hermit</span> <br />
+            <input type="radio" name="q1" value="2" onclick="q1(this.value)" />&nbsp;<span>Sociable</span> <br />
+            <input type="radio" name="q1" value="3" onclick="q1(this.value)" />&nbsp;<span>Serious</span> <br />
+            <input type="radio" name="q1" value="4" onclick="q1(this.value)" />&nbsp;<span>Grumpy</span> <br />
+            <input type="radio" name="q1" value="5" onclick="q1(this.value)" />&nbsp;<span>do not know yet</span> <br />
+            <input type="hidden" id="hQ1" />
+        </div>
+    </section>
+    <section id="Q2" class="hidden">
+        <div class="container">
+            <p>Select the JavaScript based technologies:</p><br />
+            <input type="checkbox" name="q2" value="ang" />&nbsp;<span>AngularJS</span><br />
+            <input type="checkbox" name="q2" value="emb" />&nbsp;<span>Ember</span><br />
+            <input type="checkbox" name="q2" value="vue" />&nbsp;<span>VueJS</span><br />
+            <input type="checkbox" name="q2" value="java" />&nbsp;<span>Java</span><br />
+            <input type="checkbox" name="q2" value="c" />&nbsp;<span>C#</span><br />
+            <input type="hidden" id="hQ2" />
+            <br />
+            <button class="btn-info" onclick="q2()">Next</button> 
+        </div>
+    </section>
+    <section id="Q3" class="hidden">
+        <div class="container">
+            <p>Add a palindrome:</p> 
+            <input class="form-control" id="txtPal" type="text" />
+            <br />
+            <button class="btn-info" onclick="q3()">Next</button>
+            <input type="hidden" id="hQ3" />
+        </div>
+    </section>
+    <section id="Q4" class="hidden">
+        <div class="container">
+            <p>Reverse the text:</p>
+            <span >Sentence:</span><input class="form-control" type="text" id="sentence" />
+            <br />
+            <span>Reverse</span><input class="form-control" type="text" id="reverse"/>
+            <br />
+            <input type="hidden" id="hQ4">
+            <button class="btn-success" onclick="finish()">Finish</button>
+        </div>
+    </section>
+        
+    <section id="results" class="hidden">
+        <div class="container">
+            <h3 class="alert alert-light">Results</h3>
+            <div class="row">
+                <div class="col-auto">
+                    <h4 sty>Question 1: Personal</h4>
+                    <span class="ans_q1" id="q1_ans_1">Hermit</span> / 
+                    <span class="ans_q1" id="q1_ans_2">Sociable</span> /
+                    <span class="ans_q1" id="q1_ans_3">Serious</span> /
+                    <span class="ans_q1" id="q1_ans_4">Grumpy</span> /
+                    <span class="ans_q1" id="q1_ans_5">do not know yet</span> 
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-auto">
+                    <h4>Question 2: Javascript Frameworks</h4>
+                    <span id="q2_ang" class="hidden fas fa-check green"></span><span>AngularJS</span><br />
+                    <span id="q2_emb" class="hidden fas fa-check green"></span><span>Ember</span><br />
+                    <span id="q2_vue" class="hidden fas fa-check green"></span><span>VueJS</span><br />
+                    <span id="q2_java" class="hidden fas fa-times red"></span><span>Java</span><br />
+                    <span id="q2_c" class="hidden fas fa-times red"></span><span>C#</span><br />
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-auto">
+                    <h4>Question 3: Palindrome</h4>
+                    <span id="q3_res" class="fas "></span>
+                    &nbsp; <span id="lab_q3"></label>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-auto">
+                        <h4>Question 4: Reverse Word</h4>
+                        <input type="text" class="form-control" readonly id="q4_word" />
+                        &nbsp;
+                        <input type="text" class="form-control" readonly id="q4_rev" />
+                        <br />
+                        <span id="q4_ok" class="alert alert-success hidden " >Success :)</span>
+                        <span id="q4_notok" class="alert alert-danger hidden" >Wrong :(</span>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                    <h3>Select your favorite restaurant.</h3>
+                    <div id="tableRes"  class="container">
+                        <div name="template" class="hidden border p-2 mt-3">
+                                <div class="col-4"><img /></div>
+                                <div class="col-8">
+                                        <div class="container">
+                                                <div class="row mb-5">
+                                                    <div class="col-10 ">
+                                                        <span name="name" class="h1">Name</span>
+                                                    </div>
+                                                    <div class="col-2">    
+                                                        <span name="rating" class="badge badge-success big_text" > user_rating.votes</span>
+                                                                    <br />
+                                                        <span name="votes" class="small_text">user_rating.aggregate_rating</span>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4">
+                                                    <span name="location" class="small_text">location.city</span>
+                                                    <span class="small_text">●</span>
+                                                    <span name="establ" class="small_text">establishment</span>
+                                                </div>
+                                                <div class="row">
+                                                    <span name="status" class="small_text" style="color:green">open now / closed</span>
+                                                    <span class="small_text">●</span>
+                                                    <span name="cuisines" class="small_text" style="color:tomato">restaurant.cuisines[0]</span>
+                                                    <span class="small_text">●</span>
+                                                    <span name="cost" class="small_text">average_cost_for_two</span>
+                                                    
+                                                </div>
+                                        </div>       
+                                </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+        
+    </section>
+    
+     <!-- Bootstrap core CSS -->
+    <link href="Content/bootstrap.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="Content/scrolling-nav.css" rel="stylesheet">
+    <link href="Content/Site.css" rel="stylesheet" />
+    <section id="result" class="bg-secondary hide" >
+    </section>
+    
+    <!-- Bootstrap core JavaScript -->
+    <script src="Scripts/jquery-3.3.1.js"></script>
+    <script src="Scripts/bootstrap.js"></script>
+
+    <script src="Scripts/scrolling-nav.js"></script>
+    
+   
+    <script>
+        function start() {
+            console.log('Start');
+            $("#init").addClass("hidden");
+            $("#Q1").removeClass("hidden");
+            $("#status").removeClass("hidden");
+        }
+
+        function q1(val) {
+            console.log("q1: " + val);
+            $("#hQ1").val(val);
+            $("#Q1").addClass("hidden");
+            $("#Q2").removeClass("hidden");
+            $("#status").prop("aria-valuenow",25);
+        }
+
+        function q2() {
+            console.log("q2");
+            var valid = ['AngularJS', 'VueJS', 'Ember'];
+            var answer = "";
+            $("input[name='q2']").each(function () {
+                if ($(this).is(":checked")) {
+                    answer += $(this).val() + ",";
+                }
+            });
+
+            console.log(answer);
+            $("#hQ2").val(answer);
+            //show next question
+            $("#Q2").addClass("hidden");
+            $("#Q3").removeClass("hidden");
+            $("progress").prop("aria-valuenow",50);
+        }
+
+        function q3() {
+            var pal = $("#txtPal").val();
+            var isPar = pal.length % 2;
+            var medium = parseInt( pal.length / 2);
+            var firstPart = "", secondPart = "";
+            //calculate palindrome
+            for (var i = 0; i < medium; i++) {
+                firstPart += pal[i];
+            }
+            console.log("firs: " + firstPart);
+            var index = isPar == 0 ? medium : medium + 1;
+            for (var i = index; i < pal.length; i++) {
+                secondPart = pal[i] + secondPart;
+            }
+            console.log("firs: " + secondPart);
+
+            if (firstPart === secondPart)
+                $("#hQ3").val(1);
+            else
+                $("#hQ3").val(0);
+
+            //show next question
+            $("#Q3").addClass("hidden");
+            $("#Q4").removeClass("hidden");
+            $("#status").prop("aria-valuenow",75);
+        }
+
+        function finish() {
+            //validamos ultima respuesta
+            var sen = $("#sentence").val();
+            var rev = $("#reverse").val();
+            if (sen.length == rev.length) {
+                $("#hQ4").val(true);
+                for(var index = 0; index < sen.length; sen++ ){
+                    if(sen[index] !== rev[sen.length-index])
+                    {
+                        $("#hQ4").val(1);
+                        break;
+                    }        
+                }
+            }
+            else{
+                $("#hQ4").val(0);
+            }
+            
+            //show next question
+            $("#Q4").addClass("hidden");
+            $("#results").removeClass("hidden");
+            $("#status").addClass("hidden");
+
+            //present results
+            //Q1
+            var q1ans = $("#hQ1").val();
+            $("#q1_ans_"+q1ans).addClass("bg-success");
+
+            //Q2
+            var q2_ans = $("#hQ2").val().toString();
+            var ans = q2_ans.split(",").forEach(function(item){
+                $("#q2_"+item).removeClass("hidden");
+            });
+            
+            //Q3
+            var q3_ans = $("#hQ3").val();
+            var palind = $("#txtPal").val();
+            $("#lab_q3").text(palind);
+            if(q3_ans === "1"){
+                $("#q3_res").addClass("fa-check");
+                $("#q3_res").addClass("green");
+            }
+            else{
+                $("#q3_res").addClass("fa-times");
+                $("#q3_res").addClass("red");         
+            }
+
+            //Q4
+            $("#q4_word").val($("#sentence").val());
+            $("#q4_rev").val($("#reverse").val());
+            if($("#hQ4").val() === "1"){
+                $("#q4_ok").removeClass("hidden");
+            }
+            else
+                $("#q4_notok").removeClass("hidden");
+
+            //restaurants
+            $.ajax({
+                contentType: "application/json",
+                method: "GET",
+                headers: { "user-key": "a685f9baa608a11bb39592dae07c1f15" },
+                url: "https://developers.zomato.com/api/v2.1/search?establishment_type=16",
+            })
+            .done(function(data){
+                console.log(data);
+                CreateRow(data.restaurants);
+            });
+
+        }
+
+        $(document).ready(function(){
+           
+            
+            
+        });
+
+        function CreateRow(restaurants){
+            for(var i = 0; i < 10; i++){
+                    var item = restaurants[i]; 
+            
+                    var $temp =  $("div[name='template']").clone();
+                    $temp.removeClass("hidden");
+                    $temp.addClass("row");
+                    $temp.attr("name", "");
+                    console.log($temp)
+                    var $divName = $temp.find("span[name='name']");
+                    var $spanLoc = $temp.find("span[name='location']");
+                    var $spanVotes  = $temp.find("span[name='votes']");
+                    var $spanRating  = $temp.find("span[name='rating']");
+                    var $spanEstab  = $temp.find("span[name='establ']");
+                    var $spanCuis  = $temp.find("span[name='cuisines']");
+                    var $spanCost  = $temp.find("span[name='cost']");
+                    var $spanStatus  = $temp.find("span[name='status']");
+                    var $img  = $temp.find("img");
+                    
+                    $divName.html(item.restaurant.name);
+                    $spanLoc.html(item.restaurant.location.city);
+                    $spanRating.html(item.restaurant.user_rating.aggregate_rating + " / 5");
+                    $spanEstab.html(item.restaurant.establishment);
+                    $spanCuis.html(item.restaurant.cuisines.split(",")[0]);
+                    $spanCost.html("Cost for two  : $"+ item.restaurant.average_cost_for_two);
+                    $spanStatus.html("Open");
+                    $spanVotes.html(item.restaurant.user_rating.votes+" votes");
+                    $img.prop("src",item.restaurant.thumb)
+
+                    $("#tableRes").append($temp);
+                    
+            }
+        }
+    </script>
+</body>
+</html>
