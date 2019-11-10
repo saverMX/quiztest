@@ -263,11 +263,11 @@
             var sen = $("#sentence").val();
             var rev = $("#reverse").val();
             if (sen.length == rev.length) {
-                $("#hQ4").val(true);
+                $("#hQ4").val(1);
                 for(var index = 0; index < sen.length; sen++ ){
                     if(sen[index] !== rev[sen.length-index])
                     {
-                        $("#hQ4").val(1);
+                        $("#hQ4").val(0);
                         break;
                     }        
                 }
